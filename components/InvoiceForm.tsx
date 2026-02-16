@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { Invoice, InvoiceItem, PaymentStatus, InvoiceAttachment } from '../lib/types'
 import { generateInvoiceNumber, calculateSubtotal, calculateTotal } from '../lib/utils'
 import FileUpload from './FileUpload'
@@ -9,10 +8,10 @@ import FileUpload from './FileUpload'
 interface InvoiceFormProps {
   invoice?: Invoice
   onSubmit: (invoice: Invoice) => void
+  onCancel?: () => void // Add this new optional prop
 }
 
-export default function InvoiceForm({ invoice, onSubmit }: InvoiceFormProps) {
-  const router = useRouter()
+export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceFormProps) {
   const isEditing = !!invoice
 
   const [clientName, setClientName] = useState(invoice?.clientName || '')
@@ -137,6 +136,12 @@ export default function InvoiceForm({ invoice, onSubmit }: InvoiceFormProps) {
     }
 
     onSubmit(invoiceData)
+  }
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel()
+    }
   }
 
   return (
@@ -282,7 +287,7 @@ export default function InvoiceForm({ invoice, onSubmit }: InvoiceFormProps) {
         {errors.items && <p className="mb-4 text-sm text-red-600">{errors.items}</p>}
 
         <div className="space-y-4">
-          {items.map((item, index) => (
+          {items.map((item) => (
             <div key={item.id} className="grid grid-cols-12 gap-4 items-start">
               <div className="col-span-5">
                 <label
@@ -431,7 +436,7 @@ export default function InvoiceForm({ invoice, onSubmit }: InvoiceFormProps) {
       <div className="flex justify-end space-x-3">
         <button
           type="button"
-          onClick={() => router.back()}
+          onClick={handleCancel}
           className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           Cancel

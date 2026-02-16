@@ -2,18 +2,24 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useInvoices } from '@/lib/InvoiceContext'
 import { filterInvoices, sortInvoices } from '@/lib/utils'
-import { PaymentStatus } from '@/lib/types'
+import { PaymentStatus, Invoice } from '@/lib/types'
 import InvoiceList from '@/components/InvoiceList'
 import InvoiceFilter from '@/components/InvoiceFilter'
+import InvoiceModal from '@/components/InvoiceModal'
+
 
 export default function Home() {
-  const { invoices, deleteInvoice } = useInvoices()
+  const router = useRouter()
+  const { invoices, addInvoice, updateInvoice, deleteInvoice } = useInvoices()
   const [statusFilter, setStatusFilter] = useState<PaymentStatus | ''>('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editingInvoice, setEditingInvoice] = useState<Invoice | undefined>(undefined)
 
   const filteredAndSortedInvoices = useMemo(() => {
     const filtered = filterInvoices(invoices, {
@@ -39,6 +45,33 @@ export default function Home() {
     }
   }, [invoices])
 
+  const handleOpenModal = () => {
+    setEditingInvoice(undefined)
+    setIsModalOpen(true)
+  }
+
+  const handleEditInvoice = (invoice: Invoice) => {
+    setEditingInvoice(invoice)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setEditingInvoice(undefined)
+  }
+
+  const handleSubmitInvoice = (invoice: Invoice) => {
+    if (editingInvoice) {
+      updateInvoice(invoice.id, invoice)
+    } else {
+      addInvoice(invoice)
+    }
+  }
+
+  const handleViewInvoice = (id: string) => {
+    router.push(`/invoices/${id}`)
+  }
+
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -51,8 +84,8 @@ export default function Home() {
                 Manage and track your sales invoices
               </p>
             </div>
-            <Link
-              href="/invoices/new"
+            <button
+              onClick={handleOpenModal}
               className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <svg
@@ -69,7 +102,7 @@ export default function Home() {
                 />
               </svg>
               New Invoice
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -223,9 +256,19 @@ export default function Home() {
           <InvoiceList
             invoices={filteredAndSortedInvoices}
             onDelete={deleteInvoice}
+            onEdit={handleEditInvoice}
+            onView={handleViewInvoice}
           />
         </div>
       </div>
+
+      {/* Modal */}
+      <InvoiceModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmitInvoice}
+        invoice={editingInvoice}
+      />
     </main>
   )
 }
