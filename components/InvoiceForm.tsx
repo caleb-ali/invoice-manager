@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Invoice, InvoiceItem, PaymentStatus } from '../lib/types'
+import { Invoice, InvoiceItem, PaymentStatus, InvoiceAttachment } from '../lib/types'
 import { generateInvoiceNumber, calculateSubtotal, calculateTotal } from '../lib/utils'
+import FileUpload from './FileUpload'
 
 interface InvoiceFormProps {
   invoice?: Invoice
@@ -21,6 +22,7 @@ export default function InvoiceForm({ invoice, onSubmit }: InvoiceFormProps) {
   const [dueDate, setDueDate] = useState(invoice?.dueDate || '')
   const [status, setStatus] = useState<PaymentStatus>(invoice?.status || 'pending')
   const [notes, setNotes] = useState(invoice?.notes || '')
+  const [attachments, setAttachments] = useState<InvoiceAttachment[]>(invoice?.attachments || [])
   const [items, setItems] = useState<InvoiceItem[]>(
     invoice?.items || [
       {
@@ -32,10 +34,9 @@ export default function InvoiceForm({ invoice, onSubmit }: InvoiceFormProps) {
       },
     ]
   )
-  const [taxRate, setTaxRate] = useState(10) // 10% default tax rate
+  const [taxRate, setTaxRate] = useState(10)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
-  // Calculate totals whenever items or tax rate changes
   const subtotal = calculateSubtotal(items)
   const tax = (subtotal * taxRate) / 100
   const total = calculateTotal(subtotal, tax)
@@ -62,7 +63,6 @@ export default function InvoiceForm({ invoice, onSubmit }: InvoiceFormProps) {
       items.map((item) => {
         if (item.id === id) {
           const updated = { ...item, [field]: value }
-          // Recalculate total for this item
           if (field === 'quantity' || field === 'price') {
             updated.total = updated.quantity * updated.price
           }
@@ -131,6 +131,7 @@ export default function InvoiceForm({ invoice, onSubmit }: InvoiceFormProps) {
       total,
       status,
       notes: notes.trim() || undefined,
+      attachments: attachments.length > 0 ? attachments : undefined,
       createdAt: invoice?.createdAt || now,
       updatedAt: now,
     }
@@ -400,6 +401,17 @@ export default function InvoiceForm({ invoice, onSubmit }: InvoiceFormProps) {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* File Attachments */}
+      <div className="bg-white shadow rounded-lg p-6">
+        <h2 className="text-lg font-medium text-gray-900 mb-4">File Attachments</h2>
+        <FileUpload 
+          attachments={attachments} 
+          onFilesChange={setAttachments}
+          maxFiles={5}
+          maxSizeMB={10}
+        />
       </div>
 
       {/* Notes */}
