@@ -1,9 +1,17 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Bricolage_Grotesque } from 'next/font/google'
 import './globals.css'
 import { InvoiceProvider } from '@/lib/InvoiceContext'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
+
+const bricolage = Bricolage_Grotesque({ 
+  subsets: ['latin'],
+  variable: '--font-bricolage',
+})
 
 export const metadata: Metadata = {
   title: 'Invoice Manager',
@@ -17,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${bricolage.variable} ${inter.className}`}>
         <InvoiceProvider>
           {children}
         </InvoiceProvider>

@@ -155,7 +155,7 @@ export default function InvoiceList({ invoices, onDelete, onEdit, onView }: Invo
                     e.stopPropagation()
                     onEdit(invoice)
                   }}
-                  className="text-blue-600 hover:text-blue-900 mr-4"
+                  className="text-sky-400 hover:text-sky-500 mr-4"
                 >
                   Edit
                 </button>

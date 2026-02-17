@@ -190,7 +190,7 @@ export default function FileUpload({
             <button
               type="button"
               onClick={handleButtonClick}
-              className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none"
+              className="font-medium text-sky-400 hover:text-sky-500 focus:outline-none"
             >
               Click to upload
             </button>
