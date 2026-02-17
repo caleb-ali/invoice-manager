@@ -61,7 +61,7 @@ export default function InvoiceFilter({
               id="search"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-700"
               placeholder="Search by client name or invoice number..."
             />
           </div>
@@ -81,7 +81,7 @@ export default function InvoiceFilter({
               id="status"
               value={statusFilter}
               onChange={(e) => onStatusChange(e.target.value as PaymentStatus | '')}
-              className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+              className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md text-gray-700"
             >
               <option value="">All Statuses</option>
               <option value="paid">Paid</option>
@@ -103,7 +103,7 @@ export default function InvoiceFilter({
               id="startDate"
               value={startDate}
               onChange={(e) => onStartDateChange(e.target.value)}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-700"
             />
           </div>
 
@@ -120,7 +120,7 @@ export default function InvoiceFilter({
               id="endDate"
               value={endDate}
               onChange={(e) => onEndDateChange(e.target.value)}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-700"
             />
           </div>
 

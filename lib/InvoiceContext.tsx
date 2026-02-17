@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { Invoice } from './types'
-import { getInvoices, saveInvoices, initializeMockData } from './storage'
+import { saveInvoices, initializeMockData } from './storage'
 import { mockInvoices } from './mockData'
 
 interface InvoiceContextType {
@@ -17,14 +17,20 @@ const InvoiceContext = createContext<InvoiceContextType | undefined>(undefined)
 
 export function InvoiceProvider({ children }: { children: ReactNode }) {
   const [invoices, setInvoices] = useState<Invoice[]>([])
-  const [isInitialized, setIsInitialized] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // Initialize with mock data if empty
+    // This only runs on the client, never on the server
     initializeMockData(mockInvoices)
-    const loaded = getInvoices()
-    setInvoices(loaded)
-    setIsInitialized(true)
+    const stored = localStorage.getItem('invoices')
+    if (stored) {
+      try {
+        setInvoices(JSON.parse(stored))
+      } catch {
+        setInvoices([])
+      }
+    }
+    setMounted(true)
   }, [])
 
   const addInvoice = (invoice: Invoice) => {
@@ -49,8 +55,18 @@ export function InvoiceProvider({ children }: { children: ReactNode }) {
     return invoices.find(inv => inv.id === id)
   }
 
-  if (!isInitialized) {
-    return null // or a loading spinner
+  if (!mounted) {
+    return (
+      <InvoiceContext.Provider value={{
+        invoices: [],
+        addInvoice: () => {},
+        updateInvoice: () => {},
+        deleteInvoice: () => {},
+        getInvoiceById: () => undefined,
+      }}>
+        {children}
+      </InvoiceContext.Provider>
+    )
   }
 
   return (

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Invoice, InvoiceItem, PaymentStatus, InvoiceAttachment } from '../lib/types'
 import { generateInvoiceNumber, calculateSubtotal, calculateTotal } from '../lib/utils'
 import FileUpload from './FileUpload'
@@ -17,11 +17,21 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
   const [clientName, setClientName] = useState(invoice?.clientName || '')
   const [clientEmail, setClientEmail] = useState(invoice?.clientEmail || '')
   const [clientAddress, setClientAddress] = useState(invoice?.clientAddress || '')
-  const [date, setDate] = useState(invoice?.date || new Date().toISOString().split('T')[0])
+  const [date, setDate] = useState('')
   const [dueDate, setDueDate] = useState(invoice?.dueDate || '')
   const [status, setStatus] = useState<PaymentStatus>(invoice?.status || 'pending')
   const [notes, setNotes] = useState(invoice?.notes || '')
   const [attachments, setAttachments] = useState<InvoiceAttachment[]>(invoice?.attachments || [])
+
+  useEffect(() => {
+    // Only set the date on the client after mount
+    if (!invoice?.date) {
+      setDate(new Date().toISOString().split('T')[0])
+    } else {
+      setDate(invoice.date)
+    }
+  }, [invoice?.date])
+  
   const [items, setItems] = useState<InvoiceItem[]>(
     invoice?.items || [
       {
@@ -151,7 +161,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
         <h2 className="text-lg font-medium text-gray-900 mb-4">Client Information</h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
-            <label htmlFor="clientName" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="clientName" className="block text-sm font-medium text-gray-500">
               Client Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -159,7 +169,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
               id="clientName"
               value={clientName}
               onChange={(e) => setClientName(e.target.value)}
-              className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${
+              className={`mt-1 pt-2 pb-2 block w-full rounded-md border sm:text-sm text-gray-700 ${
                 errors.clientName
                   ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                   : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -171,7 +181,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
           </div>
 
           <div>
-            <label htmlFor="clientEmail" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="clientEmail" className="block text-sm font-medium text-gray-500">
               Client Email <span className="text-red-500">*</span>
             </label>
             <input
@@ -179,7 +189,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
               id="clientEmail"
               value={clientEmail}
               onChange={(e) => setClientEmail(e.target.value)}
-              className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${
+              className={`mt-1 pt-2 pb-2 block w-full rounded-md border sm:text-sm text-gray-700 ${
                 errors.clientEmail
                   ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                   : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -191,7 +201,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
           </div>
 
           <div className="sm:col-span-2">
-            <label htmlFor="clientAddress" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="clientAddress" className="block text-sm font-medium text-gray-500">
               Client Address (Optional)
             </label>
             <textarea
@@ -199,7 +209,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
               rows={2}
               value={clientAddress}
               onChange={(e) => setClientAddress(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1  pt-2 pb-2block w-full rounded-md border-gray-300 border focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-700"
             />
           </div>
         </div>
@@ -210,7 +220,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
         <h2 className="text-lg font-medium text-gray-900 mb-4">Invoice Details</h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
           <div>
-            <label htmlFor="date" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="date" className="block text-sm font-medium text-gray-500">
               Invoice Date <span className="text-red-500">*</span>
             </label>
             <input
@@ -218,7 +228,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
               id="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${
+              className={`mt-1 pt-2 pb-2 block w-full rounded-md border sm:text-sm text-gray-700 ${
                 errors.date
                   ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                   : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -228,7 +238,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
           </div>
 
           <div>
-            <label htmlFor="dueDate" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="dueDate" className="block text-sm font-medium text-gray-500">
               Due Date <span className="text-red-500">*</span>
             </label>
             <input
@@ -236,7 +246,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
               id="dueDate"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
-              className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${
+              className={`mt-1 pt-2 pb-2 block w-full rounded-md border sm:text-sm text-gray-700 ${
                 errors.dueDate
                   ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                   : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -246,14 +256,14 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
           </div>
 
           <div>
-            <label htmlFor="status" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="status" className="block text-sm font-medium text-gray-500">
               Status <span className="text-red-500">*</span>
             </label>
             <select
               id="status"
               value={status}
               onChange={(e) => setStatus(e.target.value as PaymentStatus)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 pt-2 pb-2 block w-full rounded-md border-gray-300 border focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-700"
             >
               <option value="pending">Pending</option>
               <option value="paid">Paid</option>
@@ -292,7 +302,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
               <div className="col-span-5">
                 <label
                   htmlFor={`description-${item.id}`}
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-500"
                 >
                   Description
                 </label>
@@ -302,14 +312,14 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
                   value={item.description}
                   onChange={(e) => updateItem(item.id, 'description', e.target.value)}
                   placeholder="Item description"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 pt-2 pb-2 block w-full rounded-md border-gray-300 border focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-700"
                 />
               </div>
 
               <div className="col-span-2">
                 <label
                   htmlFor={`quantity-${item.id}`}
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-500"
                 >
                   Quantity
                 </label>
@@ -319,14 +329,14 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
                   value={item.quantity}
                   onChange={(e) => updateItem(item.id, 'quantity', Number(e.target.value))}
                   min="1"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 pt-2 pb-2 block w-full rounded-md border-gray-300 border focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-700"
                 />
               </div>
 
               <div className="col-span-2">
                 <label
                   htmlFor={`price-${item.id}`}
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-500"
                 >
                   Price
                 </label>
@@ -337,13 +347,13 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
                   onChange={(e) => updateItem(item.id, 'price', Number(e.target.value))}
                   min="0"
                   step="0.01"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 pt-2 pb-2 block w-full rounded-md border-gray-300 border focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-700"
                 />
               </div>
 
               <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700">Total</label>
-                <div className="mt-1 block w-full py-2 px-3 bg-gray-50 rounded-md text-sm text-gray-900">
+                <label className="block text-sm font-medium text-gray-500">Total</label>
+                <div className="mt-1 pt-2 pb-2 block w-full py-2 px-3 bg-gray-50 rounded-md text-sm text-gray-900">
                   ${item.total.toFixed(2)}
                 </div>
               </div>
@@ -428,7 +438,7 @@ export default function InvoiceForm({ invoice, onSubmit, onCancel }: InvoiceForm
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="Any additional notes or terms..."
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          className="block w-full rounded-md border-gray-300 border focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-700"
         />
       </div>
 

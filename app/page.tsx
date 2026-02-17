@@ -80,9 +80,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
             <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-sky-500 to-[#282465] bg-clip-text text-transparent font-[family-name:var(--font-bricolage)]">
-  Invoice Manager
-</h1>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-sky-500 to-[#282465] bg-clip-text text-transparent font-[family-name:var(--font-bricolage)]">
+                Invoice Manager
+              </h1>
               <p className="mt-1 text-sm text-gray-400">
                 Manage and track your sales invoices
               </p>
@@ -150,7 +150,7 @@ export default function Home() {
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <svg
-                    className="h-6 w-6 text-green-400"
+                    className="h-6 w-6 text-green-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -168,7 +168,7 @@ export default function Home() {
                     <dt className="text-sm font-medium text-gray-500 truncate">
                       Paid
                     </dt>
-                    <dd className="text-lg font-semibold text-green-600">
+                    <dd className="text-lg font-semibold  text-gray-900">
                       ${stats.paid.toLocaleString()}
                     </dd>
                   </dl>
@@ -200,7 +200,7 @@ export default function Home() {
                     <dt className="text-sm font-medium text-gray-500 truncate">
                       Pending
                     </dt>
-                    <dd className="text-lg font-semibold text-yellow-600">
+                    <dd className="text-lg font-semibold text-gray-900">
                       ${stats.pending.toLocaleString()}
                     </dd>
                   </dl>
@@ -214,7 +214,7 @@ export default function Home() {
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <svg
-                    className="h-6 w-6 text-red-400"
+                    className="h-6 w-6 text-red-800"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -232,7 +232,7 @@ export default function Home() {
                     <dt className="text-sm font-medium text-gray-500 truncate">
                       Overdue
                     </dt>
-                    <dd className="text-lg font-semibold text-red-600">
+                    <dd className="text-lg font-semibold text-gray-900">
                       ${stats.overdue.toLocaleString()}
                     </dd>
                   </dl>

@@ -26,7 +26,7 @@ export default function InvoiceList({ invoices, onDelete, onEdit, onView }: Invo
 
     return (
       <span
-        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+        className={`inline-flex items-center justify-center min-w-[80px] px-2.5 py-0.5 rounded-full text-xs font-medium ${
           styles[status as keyof typeof styles] || 'bg-gray-100 text-gray-800'
         }`}
       >
@@ -134,7 +134,7 @@ export default function InvoiceList({ invoices, onDelete, onEdit, onView }: Invo
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 {formatCurrency(invoice.total)}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="px-6 py-4  whitespace-nowrap">
                 {getStatusBadge(invoice.status)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -164,7 +164,7 @@ export default function InvoiceList({ invoices, onDelete, onEdit, onView }: Invo
                     e.stopPropagation()
                     handleDelete(invoice.id, invoice.invoiceNumber)
                   }}
-                  className="text-red-600 hover:text-red-900"
+                  className="text-red-800 hover:text-red-900"
                 >
                   Delete
                 </button>
