@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Invoice Manager
+
+A web application for managing sales invoices built with Next.js, TypeScript, and Tailwind CSS.
+
+## Features
+
+- **Create Invoices** - Add new invoices via a modal without leaving the dashboard
+- **Edit Invoices** - Update existing invoice details and items
+- **Delete Invoices** - Remove invoices with confirmation prompt
+- **Invoice Detail View** - View complete invoice details on a dedicated page with print support
+- **File Attachments** - Upload and manage files for each invoice with drag and drop support
+- **Filtering** - Filter invoices by status (paid, pending, overdue), date range, and search by client name or invoice number
+- **Dashboard Stats** - At a glance totals for paid, pending, and overdue amounts
+- **Persistent Storage** - Invoice data is saved to local storage and persists across sessions
+
+## Tech Stack
+
+- [Next.js 15](https://nextjs.org/) - React framework
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Jest](https://jestjs.io/) - Unit testing
+- [React Testing Library](https://testing-library.com/) - Component testing
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- npm
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/YOUR_USERNAME/invoice-manager.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Navigate into the project directory:
+```bash
+cd invoice-manager
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Install dependencies:
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Start the development server:
+```bash
+npm run dev
+```
 
-## Learn More
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+## Running Tests
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run the full test suite:
+```bash
+npm test
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run tests in watch mode:
+```bash
+npm run test:watch
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+```
+├── app/
+│   ├── components/        # Reusable UI components
+│   │   ├── ClientDate.tsx
+│   │   ├── FileUpload.tsx
+│   │   ├── InvoiceFilter.tsx
+│   │   ├── InvoiceForm.tsx
+│   │   ├── InvoiceList.tsx
+│   │   └── InvoiceModal.tsx
+│   ├── invoices/
+│   │   └── [id]/          # Invoice detail page
+│   ├── lib/               # Types, utilities, and state management
+│   │   ├── InvoiceContext.tsx
+│   │   ├── mockData.ts
+│   │   ├── storage.ts
+│   │   ├── types.ts
+│   │   └── utils.ts
+│   ├── layout.tsx
+│   └── page.tsx           # Main dashboard
+├── __tests__/
+│   ├── components/        # Component tests
+│   └── lib/               # Utility function tests
+├── jest.config.js
+├── jest.setup.ts
+└── README.md
+```
