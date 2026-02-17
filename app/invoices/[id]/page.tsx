@@ -4,6 +4,7 @@ import { use } from 'react'
 import { useRouter } from 'next/navigation'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import { useInvoices } from '@/lib/InvoiceContext'
+import ClientDate from '@/components/ClientDate'
 
 
 export default function InvoiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -91,10 +92,10 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
                   Invoice Number: <span className="font-medium text-gray-900">{invoice.invoiceNumber}</span>
                 </p>
                 <p className="mt-1 text-sm text-gray-600">
-                  Date: <span className="font-medium text-gray-900">{formatDate(invoice.date)}</span>
+                  Date: <span className="font-medium text-gray-900"><ClientDate dateString={invoice.date} /></span>
                 </p>
                 <p className="mt-1 text-sm text-gray-600">
-                  Due Date: <span className="font-medium text-gray-900">{formatDate(invoice.dueDate)}</span>
+                  Due Date: <span className="font-medium text-gray-900"><ClientDate dateString={invoice.dueDate} /></span>
                 </p>
               </div>
               <div className={`px-4 py-2 border rounded-lg ${getStatusColor(invoice.status)}`}>

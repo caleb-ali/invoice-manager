@@ -2,6 +2,7 @@
 
 import { Invoice } from '../lib/types'
 import { formatCurrency, formatDate } from '../lib/utils'
+import ClientDate from './ClientDate'
 
 interface InvoiceListProps {
   invoices: Invoice[]
@@ -126,11 +127,11 @@ export default function InvoiceList({ invoices, onDelete, onEdit, onView }: Invo
                 <div className="text-sm text-gray-500">{invoice.clientEmail}</div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {formatDate(invoice.date)}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {formatDate(invoice.dueDate)}
-              </td>
+  <ClientDate dateString={invoice.date} />
+</td>
+<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+  <ClientDate dateString={invoice.dueDate} />
+</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 {formatCurrency(invoice.total)}
               </td>
